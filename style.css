@@ -138,7 +138,6 @@ body {
   transition: opacity 0.15s;
 }
 .play-btn:disabled { opacity: 0.5; cursor: default; }
-.play-btn:not(:disabled):hover { opacity: 0.85; }
 
 .search-wrap {
   position: relative;
@@ -282,7 +281,7 @@ body {
   width: 100%;
   margin-bottom: 14px;
   padding: 10px;
-  background: none;
+  background: #1face4;
   border: 1.5px solid var(--border-divider);
   border-radius: 999px;
   color: var(--text-primary);
