@@ -18,7 +18,7 @@
 
   --border-divider: #eee;
 
-  --action-button-icon: #8b8b8b;
+  --action-button-icon: #616161;
   --action-button-background: #d6d6d6;
 }
 
@@ -44,10 +44,31 @@ body {
   border-radius: 24px;
   padding: 20px 20px 8px;
   box-shadow: 0 8px 40px rgba(0,0,0,0.18);
-  overflow: hidden;
+  position: relative;
+    overflow: hidden; /* Keeps the image inside if it's large */
 }
 
+.top-right-logo {
+  position: absolute;
+    top: 10px;      /* Gap from top edge */
+    right: 10px;    /* Gap from right edge */
+    width: 20px;    /* Adjust size as needed */
+    height: auto;
+    z-index: 5;     /* Keeps it above the album art */
+    pointer-events: none;
+}
+.card-image .top-right-logo {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 82px !important; /* Forces the small size */
+    height: auto !important;
+    z-index: 10;
+    pointer-events: none;
+    background: transparent; /* Ensures no background bleed */
+}
 .card-image {
+  position: relative; /* This is the "anchor" */
   width: 100%;
   aspect-ratio: 1;
   border-radius: 16px;
