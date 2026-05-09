@@ -8,8 +8,6 @@ const cardImgPlaceholder = document.getElementById('cardImgPlaceholder');
 const cardTitle = document.getElementById('cardTitle');
 const selectedTrackList = document.getElementById('selectedTrackList');
 
-const CLIENT_ID = '';
-const CLIENT_SECRET = '';
 const MAX = 3;
 
 let debounceTimer = null;
@@ -19,6 +17,8 @@ let selected = [];
 async function getToken() {
   const res = await fetch("https://elclubdelacorcheatokens.vercel.app/api/token");
   const data = await res.json();
+
+  console.log("TOKEN RESPONSE:", data); // 👈 ADD THIS
   return data.access_token;
 }
 
@@ -160,51 +160,56 @@ confirmBtn.addEventListener('click', () => {
 
 
 
-document.getElementById('shareBtn').addEventListener('click', async () => {
+
+// --- 1. DOWNLOAD LOGIC ---
+document.getElementById('downloadBtn').addEventListener('click', async () => {
   const card = document.querySelector('.card');
-  const shareBtn = document.getElementById('shareBtn');
+  const btn = document.getElementById('downloadBtn');
+  btn.innerText = "Saving...";
 
-  // Simple UI feedback
-  const originalText = shareBtn.innerText;
-  shareBtn.innerText = "Processing...";
+  const canvas = await html2canvas(card, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: null
+  });
 
-  try {
-    const canvas = await html2canvas(card, {
-      scale: 2, 
-      useCORS: true,
-      backgroundColor: null
-    });
-
-    canvas.toBlob(async (blob) => {
-      if (!blob) return;
-
-      const file = new File([blob], 'playlist.png', { type: 'image/png' });
-
-      // Check if the browser is capable of sharing this file
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({
-            files: [file],
-            title: 'My Playlist',
-            text: 'Check out my selection!'
-          });
-        } catch (err) {
-          // Handled: user closed the menu or share failed
-          console.log("Share action dismissed.");
-        }
-      } else {
-        alert("Your browser doesn't support direct image sharing. Try using Safari on iOS or Chrome on Android via HTTPS.");
-      }
-      
-      shareBtn.innerText = originalText;
-    }, 'image/png');
-
-  } catch (error) {
-    console.error("Error:", error);
-    shareBtn.innerText = originalText;
-  }
+  const link = document.createElement('a');
+  link.download = 'my-playlist.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  
+  btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download`;
 });
 
+// --- 2. SHARE LOGIC ---
+document.getElementById('shareBtn').addEventListener('click', async () => {
+  const card = document.querySelector('.card');
+  const btn = document.getElementById('shareBtn');
+
+  const canvas = await html2canvas(card, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: null
+  });
+
+  canvas.toBlob(async (blob) => {
+    if (!blob) return;
+    const file = new File([blob], 'playlist.png', { type: 'image/png' });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: 'My Playlist',
+        });
+      } catch (err) {
+        console.log("Share dismissed");
+      }
+    } else {
+      alert("Sharing not supported on this browser. Try Downloading instead.");
+    }
+  }, 'image/png');
+});
 
 
 const searchWrap = document.querySelector('.search-wrap');
