@@ -27,9 +27,6 @@
 body {
   background: var(--bg-page);
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -37,6 +34,7 @@ body {
 
 .shell {
   width: 320px;
+  margin: 40px auto;  /* centers it horizontally with space from the navbar */
 }
 
 .card {
@@ -270,3 +268,92 @@ body {
   transition: background 0.15s;
 }
 .share-btn:hover { background: var(--bg-result-hover); }
+
+
+/* ── Topbar ── */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1cqw;
+    height: 60px;
+    background: #0a5c9e;;
+    border-bottom: 1.5px solid #0a5c9e;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.topbar-logo {
+    height: 52px;
+    width: 52px;
+    object-fit: contain;
+}
+
+.topbar-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+}
+
+.topbar-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.topbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    white-space: nowrap;
+}
+
+.topbar-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.88;
+}
+
+.topbar-btn--discord {
+    background: #5865F2;
+    color: #fff;
+}
+
+.topbar-btn--youtube {
+    background: #FF0000;
+    color: #fff;
+}
+
+.topbar-btn--instagram {
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: #fff;
+}
+
+/* Hide button text on small screens */
+@media (max-width: 520px) {
+    .topbar-btn span {
+        display: none;
+    }
+    .topbar-btn {
+        padding: 8px 10px;
+    }
+    .topbar-title {
+        font-size: 0.85rem;
+    }
+}
