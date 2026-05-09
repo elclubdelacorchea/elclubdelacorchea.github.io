@@ -17,22 +17,8 @@ let currentQuery = '';
 let selected = [];
 
 async function getToken() {
-  const cached = sessionStorage.getItem('sp_token');
-  const exp = sessionStorage.getItem('sp_token_exp');
-  if (cached && exp && Date.now() < parseInt(exp)) return cached;
-
-  const res = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET)
-    },
-    body: 'grant_type=client_credentials'
-  });
-
+  const res = await fetch("https://elclubdelacorcheatokens.vercel.app/api/token");
   const data = await res.json();
-  sessionStorage.setItem('sp_token', data.access_token);
-  sessionStorage.setItem('sp_token_exp', Date.now() + (data.expires_in - 60) * 1000);
   return data.access_token;
 }
 
