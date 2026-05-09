@@ -61,22 +61,6 @@ function resetSearch() {
   currentQuery = '';
 }
 
-function updateCard() {
-  if (selected.length === 0) {
-    cardTitle.textContent = 'Find your songs';
-    cardImg.style.display = 'none';
-    cardImgPlaceholder.style.display = 'block';
-  } else {
-    const latest = selected[selected.length - 1];
-    cardTitle.textContent = latest.name;
-    if (latest.img) {
-      cardImg.src = latest.img;
-      cardImg.style.display = 'block';
-      cardImgPlaceholder.style.display = 'none';
-    }
-  }
-  confirmBtn.disabled = selected.length < MAX;
-}
 
 function renderResults(tracks) {
   resultList.innerHTML = '';
@@ -211,7 +195,6 @@ document.getElementById('shareBtn').addEventListener('click', async () => {
   }, 'image/png');
 });
 
-
 const searchWrap = document.querySelector('.search-wrap');
 
 function updateCard() {
@@ -228,6 +211,5 @@ function updateCard() {
       cardImgPlaceholder.style.display = 'none';
     }
   }
-  confirmBtn.disabled = selected.length < MAX;
   searchWrap.style.display = selected.length >= MAX ? 'none' : '';
 }

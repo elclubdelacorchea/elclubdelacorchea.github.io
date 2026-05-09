@@ -277,6 +277,13 @@ body {
   margin-top: 2px;
 }
 
+#downloadBtn:disabled,
+#shareBtn:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+  cursor: default;
+}
+
 .share-btn {
   width: 100%;
   margin-bottom: 14px;
